@@ -9,3 +9,14 @@ export const endpoints = {
   trades: "/trades", // GET ?rpp=10&page=1
   deleteTrade: "/trades", // DELETE /:id
 };
+
+export const routes = [
+  {
+    label: "Home",
+    path: "/",
+  },
+  {
+    label: "Mercado",
+    path: "/mercado",
+  },
+];

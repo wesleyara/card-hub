@@ -74,3 +74,20 @@
     @apply bg-background text-foreground;
   }
 }
+
+body {
+  @apply bg-plantation-500;
+}
+
+input {
+  @apply rounded-md border border-gray-400 px-2 py-2;
+  color: black !important;
+}
+
+.btn {
+  @apply rounded-md bg-plantation-500 px-4 py-2 text-white hover:bg-plantation-600 w-full;
+}
+
+.h-screen-without-header {
+  height: calc(100vh - 80px);
+}
