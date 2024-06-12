@@ -85,7 +85,11 @@ input {
 }
 
 .btn {
-  @apply rounded-md bg-plantation-500 px-4 py-2 text-white hover:bg-plantation-600 w-full;
+  @apply w-full rounded-md bg-plantation-500 px-4 py-2 text-white hover:bg-plantation-600;
+}
+
+.btn-secondary {
+  @apply w-full rounded-md bg-white px-4 py-2 text-plantation-500;
 }
 
 .h-screen-without-header {
