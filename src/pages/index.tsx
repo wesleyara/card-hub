@@ -37,8 +37,8 @@ export default function Home() {
         </p>
 
         <Drawer>
-          <DrawerTrigger>
-            <button className="btn-secondary mt-2">Saiba mais</button>
+          <DrawerTrigger className="btn-secondary mt-2">
+            Saiba mais
           </DrawerTrigger>
           <DrawerContent>
             <DrawerHeader>
