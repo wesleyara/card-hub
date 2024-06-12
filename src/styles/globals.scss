@@ -95,3 +95,7 @@ input {
 .h-screen-without-header {
   height: calc(100vh - 80px);
 }
+
+.card {
+  @apply flex flex-col items-center gap-2 rounded-md bg-card p-1 pb-2 text-card-foreground w-[225px];
+}

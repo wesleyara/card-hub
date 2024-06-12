@@ -4,8 +4,13 @@ import { createContext, ReactNode, useEffect, useState } from "react";
 import { getStorage, setStorage } from "utils-react";
 
 type AuthContextType = {
-  handleRegister: (name: string, email: string, password: string) => void;
-  handleLogin: (email: string, password: string) => void;
+  handleRegister: (
+    name: string,
+    email: string,
+    password: string,
+  ) => Promise<void>;
+  handleLogin: (email: string, password: string) => Promise<void>;
+  handleAddCards: (cardIds: string[]) => Promise<void>;
   handleLogout: () => void;
   requestMe: (token: string) => void;
   user: IUser | null;
@@ -53,6 +58,25 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
+  const handleAddCards = async (cardIds: string[]) => {
+    try {
+      await api.post(
+        endpoints.addCards,
+        {
+          cardIds,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      requestMe(token);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const handleLogout = () => {
     setUser(null);
     setToken("");
@@ -94,6 +118,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     <AuthContext.Provider
       value={{
         handleRegister,
+        handleAddCards,
         handleLogin,
         handleLogout,
         requestMe,
