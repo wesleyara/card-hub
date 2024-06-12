@@ -8,7 +8,7 @@ export const Invetory = () => {
     <div className="flex flex-col gap-5">
       <h3>Inventário</h3>
 
-      <div className="flex gap-2">
+      <div className="flex flex-wrap items-center justify-center gap-2">
         {user?.cards && user?.cards.length > 0 ? (
           user?.cards.map(card => (
             <span key={card.id} className="card">
