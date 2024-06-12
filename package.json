@@ -19,7 +19,8 @@
     "react-dom": "^18",
     "sass": "^1.77.5",
     "tailwind-merge": "^2.3.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "utils-react": "^1.2.0"
   },
   "devDependencies": {
     "@types/node": "^20",
