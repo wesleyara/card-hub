@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-tabs": "^1.0.4",
     "@radix-ui/react-toast": "^1.1.5",
     "axios": "^1.7.2",
@@ -22,7 +23,8 @@
     "sass": "^1.77.5",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
-    "utils-react": "^1.2.0"
+    "utils-react": "^1.2.0",
+    "vaul": "^0.9.1"
   },
   "devDependencies": {
     "@types/node": "^20",
