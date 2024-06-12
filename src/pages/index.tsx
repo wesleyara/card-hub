@@ -1,7 +1,6 @@
 import { Icon, Meta } from "~/components";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
   DrawerDescription,
   DrawerFooter,
