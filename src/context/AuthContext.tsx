@@ -1,7 +1,7 @@
 import { api, endpoints } from "~/lib";
 import { IUser, LoginResponse, RegisterResponse } from "~/types";
 import { createContext, ReactNode, useEffect, useState } from "react";
-import { getStorage } from "utils-react";
+import { getStorage, setStorage } from "utils-react";
 
 type AuthContextType = {
   handleRegister: (name: string, email: string, password: string) => void;
@@ -16,8 +16,8 @@ type AuthProviderProps = {
   children: ReactNode;
 };
 
-export const AuthContext = createContext<AuthContextType | undefined>(
-  undefined,
+export const AuthContext = createContext<AuthContextType>(
+  {} as AuthContextType,
 );
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
@@ -47,6 +47,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         password,
       });
       setToken(response.data.token);
+      setStorage("token", response.data.token);
     } catch (error) {
       console.error(error);
     }
@@ -84,6 +85,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       requestMe(token);
     }
   }, [token]);
+
+  useEffect(() => {
+    console.log({ user });
+  }, [user]);
 
   return (
     <AuthContext.Provider
