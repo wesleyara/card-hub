@@ -3,8 +3,10 @@ import { useMarket } from "~/hooks/useMarket";
 import { TradesResponse } from "~/types";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { FaArrowRightArrowLeft } from "react-icons/fa6";
 
+import { ViewCardsModal } from "../Modals";
 import { useToast } from "../ui/use-toast";
 
 interface TradeCardProps {
@@ -16,6 +18,8 @@ export const TradeCard = ({ item }: TradeCardProps) => {
   const { toast } = useToast();
   const { user } = useAuth();
   const { handleCancelTrade } = useMarket();
+
+  const [isOpen, setIsOpen] = useState(false);
 
   const myCards = item.tradeCards.filter(card => card.type === "OFFERING");
   const theirCards = item.tradeCards.filter(card => card.type === "RECEIVING");
@@ -49,75 +53,87 @@ export const TradeCard = ({ item }: TradeCardProps) => {
     });
   };
 
+  const handleOpenView = async () => {
+    setIsOpen(true);
+  };
+
   return (
-    <section className="flex w-full flex-col gap-3 rounded-md border p-3">
-      <h5>
-        {item.user.name} {isTradeOwn && `(Você)`}
-      </h5>
+    <>
+      <section className="flex w-full flex-col gap-3 rounded-md border p-3">
+        <h5>
+          {item.user.name} {isTradeOwn && `(Você)`}
+        </h5>
 
-      <div className="flex w-full items-center justify-center gap-2 md:gap-5">
-        <div className="flex w-full justify-start gap-2 overflow-x-auto">
-          {myCards.map(card => (
-            <span
-              key={card.cardId}
-              className={`relative flex h-[139px] min-w-[100px] border border-black`}
-            >
-              <Image
-                src={
-                  card.card.imageUrl
-                    ? card.card.imageUrl
-                    : "https://placehold.co/100x139/png"
-                }
-                layout="fill"
-                objectFit="contain"
-                alt={card.card.name}
-              />
-            </span>
-          ))}
+        <div className="flex w-full items-center justify-center gap-2 md:gap-5">
+          <div className="flex w-full justify-start gap-2 overflow-x-auto">
+            {myCards.map(card => (
+              <span
+                key={card.cardId}
+                className={`relative flex h-[139px] w-[100px] min-w-[100px] border border-black`}
+              >
+                <Image
+                  src={
+                    card.card.imageUrl
+                      ? card.card.imageUrl
+                      : "https://placehold.co/100x139/png"
+                  }
+                  width={100}
+                  height={139}
+                  alt={card.card.name}
+                />
+              </span>
+            ))}
+          </div>
+
+          <FaArrowRightArrowLeft size={30} />
+
+          <div className="flex w-full justify-start gap-2 overflow-x-auto">
+            {theirCards.map(card => (
+              <span
+                key={card.cardId}
+                className={`relative flex h-[139px] w-[100px] min-w-[100px] border border-black ${
+                  user && !userCardsIds.includes(card.cardId) && "grayscale"
+                }`}
+              >
+                <Image
+                  src={
+                    card.card.imageUrl
+                      ? card.card.imageUrl
+                      : "https://placehold.co/100x139/png"
+                  }
+                  width={100}
+                  height={139}
+                  alt={card.card.name}
+                />
+              </span>
+            ))}
+          </div>
         </div>
 
-        <FaArrowRightArrowLeft size={30} />
-
-        <div className="flex w-full justify-start gap-2 overflow-x-auto">
-          {theirCards.map(card => (
-            <span
-              key={card.cardId}
-              className={`relative flex h-[139px] min-w-[100px] border border-black ${
-                user && !userCardsIds.includes(card.cardId) && "grayscale"
-              }`}
-            >
-              <Image
-                src={
-                  card.card.imageUrl
-                    ? card.card.imageUrl
-                    : "https://placehold.co/100x139/png"
-                }
-                layout="fill"
-                objectFit="contain"
-                alt={card.card.name}
-              />
-            </span>
-          ))}
-        </div>
-      </div>
-
-      <span className="flex justify-center gap-2">
-        <button
-          className={`btn-secondary max-w-[300px] ${
-            user && !isTradeOwn && !isEnableToTrade && "!bg-opacity-50"
-          }`}
-          onClick={handleAction}
-        >
-          {!user
-            ? "Faça o login"
-            : isTradeOwn
-            ? "Cancelar troca"
-            : "Realizar troca"}
-        </button>
-        <button className={`btn-secondary max-w-[300px]`}>
-          Veja as cartas
-        </button>
-      </span>
-    </section>
+        <span className="flex justify-center gap-2">
+          <button
+            className={`btn-secondary max-w-[300px] ${
+              user && !isTradeOwn && !isEnableToTrade && "!bg-opacity-50"
+            }`}
+            onClick={handleAction}
+          >
+            {!user
+              ? "Faça o login"
+              : isTradeOwn
+              ? "Cancelar troca"
+              : "Realizar troca"}
+          </button>
+          <button
+            className={`btn-secondary max-w-[300px]`}
+            onClick={handleOpenView}
+          >
+            Veja as cartas
+          </button>
+        </span>
+      </section>
+      {isOpen && (
+        <ViewCardsModal item={item} isOpen={isOpen} setIsOpen={setIsOpen} />
+      )}
+    </>
   );
 };

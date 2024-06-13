@@ -110,7 +110,7 @@ export const TradeCardsModal = ({
   return (
     <Dialog open={isOpen} onClose={handleClose} className="relative z-50">
       <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
-        <DialogPanel className="relative max-w-[768px] space-y-4 border bg-white p-6">
+        <DialogPanel className="relative max-w-[768px] space-y-4 rounded-md border-2 border-black bg-white p-6">
           <button className="absolute right-4 top-4" onClick={handleClose}>
             X
           </button>

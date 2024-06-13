@@ -32,7 +32,6 @@ export const Meta = (props: IMetaProps) => {
         <meta name="theme-color" content="#5a67d8" key="theme-color" />
 
         <meta name="robots" content="index" />
-        <link rel="manifest" href="/manifest.json" />
 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
