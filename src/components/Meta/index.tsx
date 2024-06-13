@@ -48,14 +48,14 @@ export const Meta = (props: IMetaProps) => {
           rel="icon"
           type="image/png"
           sizes="32x32"
-          href={`${router.basePath}/favicon-32.png`}
+          href={`${router.basePath}/favicon.png`}
           key="icon32"
         />
         <link
           rel="icon"
           type="image/png"
           sizes="16x16"
-          href={`${router.basePath}/favicon-16.png`}
+          href={`${router.basePath}/favicon.png`}
           key="icon16"
         />
         <link
