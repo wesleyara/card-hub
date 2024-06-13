@@ -85,7 +85,7 @@ export const TradeCard = ({ item }: TradeCardProps) => {
               style={{ left: `${calculateLeft(myCards.length, index)}px` }}
               className={`${
                 index !== 0 && "absolute top-0"
-              }  block h-[139px] w-[100px]`}
+              }  block h-[139px] w-[100px] border border-black`}
             >
               <Image
                 src={
@@ -116,7 +116,7 @@ export const TradeCard = ({ item }: TradeCardProps) => {
               style={{ left: `${calculateLeft(myCards.length, index)}px` }}
               className={`${
                 index !== 0 && "absolute top-0"
-              }  block h-[139px] w-[100px] ${
+              }  block h-[139px] w-[100px] border border-black ${
                 user && !userCardsIds.includes(card.cardId) && "grayscale"
               }`}
               key={card.cardId}
