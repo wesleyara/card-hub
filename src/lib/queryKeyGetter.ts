@@ -1,4 +1,4 @@
-import { CardsResponse, IUser } from "~/types";
+import { CardsResponse, IUser, TradesResponse } from "~/types";
 
 import { api } from "./axios";
 import { endpoints } from "./constants";
@@ -10,6 +10,15 @@ export class QueryKeyGetter {
         `${endpoints.cards}?rpp=100&page=1`,
       );
       return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async requestTrades() {
+    try {
+      const response = await api.get(`${endpoints.trades}?rpp=100&page=1`);
+      return response.data.list as TradesResponse[];
     } catch (error) {
       console.error(error);
     }

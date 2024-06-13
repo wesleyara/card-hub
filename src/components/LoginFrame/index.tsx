@@ -74,12 +74,12 @@ export const LoginFrame = () => {
 
   return (
     <main className="window-width h-screen-without-header mx-auto flex items-center justify-center">
-      <section className="h-[500px]">
+      <section className="flex h-[500px] justify-center">
         <Tabs
           onValueChange={value => handleTabChange(value)}
           defaultValue={activeTab}
           value={activeTab}
-          className="w-[400px]"
+          className="window-width max-w-[400px]"
         >
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="login">Login</TabsTrigger>

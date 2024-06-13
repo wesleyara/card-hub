@@ -5,3 +5,4 @@ export * from "./LoginFrame";
 export * from "./ProfileFrame";
 export * from "./LoginRequest";
 export * from "./Modals";
+export * from "./MarketFrame";
