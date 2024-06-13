@@ -4,7 +4,7 @@ import { useState } from "react";
 import { AddCardsModal } from "../Modals";
 
 export const Profile = () => {
-  const { user } = useAuth();
+  const { user, handleLogout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -15,11 +15,17 @@ export const Profile = () => {
           inventário.
         </p>
 
-        <span className="flex gap-2">
-          <button className="btn-secondary" onClick={() => setIsOpen(true)}>
-            Adicionar cards
+        <span className="flex flex-wrap items-center justify-center gap-2">
+          <button
+            className="btn-secondary md:w-[300px]"
+            onClick={() => setIsOpen(true)}
+          >
+            Adicionar cartas
           </button>
-          <button className="btn-secondary">Trocar cards</button>
+          <button className="btn-secondary md:w-[300px]">Trocar cards</button>
+          <button className="btn-secondary md:w-[300px]" onClick={handleLogout}>
+            Sair
+          </button>
         </span>
       </div>
       <AddCardsModal isOpen={isOpen} setIsOpen={setIsOpen} />
