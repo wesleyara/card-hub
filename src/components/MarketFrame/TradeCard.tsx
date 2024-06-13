@@ -4,7 +4,6 @@ import { TradesResponse } from "~/types";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { FaArrowRightArrowLeft } from "react-icons/fa6";
-import { useWidth } from "utils-react";
 
 import { useToast } from "../ui/use-toast";
 
@@ -21,21 +20,7 @@ export const TradeCard = ({ item }: TradeCardProps) => {
   const myCards = item.tradeCards.filter(card => card.type === "OFFERING");
   const theirCards = item.tradeCards.filter(card => card.type === "RECEIVING");
 
-  const width = useWidth();
-
   const userCardsIds = user?.cards.map(card => card.id) || [];
-
-  const calculateLeft = (arrayLength: number, index: number) => {
-    const reference = width > 500 ? 8 : 12 + arrayLength;
-
-    const value = index * (width / reference / arrayLength);
-
-    if (value > 105 * index) {
-      return 105;
-    }
-
-    return value;
-  };
 
   const isTradeOwn = item.user.name === user?.name;
   const isEnableToTrade = theirCards.every(card =>
@@ -70,22 +55,12 @@ export const TradeCard = ({ item }: TradeCardProps) => {
         {item.user.name} {isTradeOwn && `(Você)`}
       </h5>
 
-      <div className="flex items-center justify-center gap-2 md:gap-5">
-        <div
-          style={{
-            width: `${
-              calculateLeft(myCards.length, myCards.length - 1) + 100
-            }px`,
-          }}
-          className="relative"
-        >
-          {myCards.map((card, index) => (
+      <div className="flex w-full items-center justify-center gap-2 md:gap-5">
+        <div className="flex w-full justify-start gap-2 overflow-x-auto">
+          {myCards.map(card => (
             <span
               key={card.cardId}
-              style={{ left: `${calculateLeft(myCards.length, index)}px` }}
-              className={`${
-                index !== 0 && "absolute top-0"
-              }  block h-[139px] w-[100px] border border-black`}
+              className={`relative flex h-[139px] min-w-[100px] border border-black`}
             >
               <Image
                 src={
@@ -93,9 +68,9 @@ export const TradeCard = ({ item }: TradeCardProps) => {
                     ? card.card.imageUrl
                     : "https://placehold.co/100x139/png"
                 }
+                layout="fill"
+                objectFit="contain"
                 alt={card.card.name}
-                width={100}
-                height={139}
               />
             </span>
           ))}
@@ -103,34 +78,27 @@ export const TradeCard = ({ item }: TradeCardProps) => {
 
         <FaArrowRightArrowLeft size={30} />
 
-        <span
-          style={{
-            width: `${
-              calculateLeft(myCards.length, myCards.length - 1) + 100
-            }px`,
-          }}
-          className="relative"
-        >
-          {theirCards.map((card, index) => (
-            <Image
-              style={{ left: `${calculateLeft(myCards.length, index)}px` }}
-              className={`${
-                index !== 0 && "absolute top-0"
-              }  block h-[139px] w-[100px] border border-black ${
+        <div className="flex w-full justify-start gap-2 overflow-x-auto">
+          {theirCards.map(card => (
+            <span
+              key={card.cardId}
+              className={`relative flex h-[139px] min-w-[100px] border border-black ${
                 user && !userCardsIds.includes(card.cardId) && "grayscale"
               }`}
-              key={card.cardId}
-              src={
-                card.card.imageUrl
-                  ? card.card.imageUrl
-                  : "https://placehold.co/100x139/png"
-              }
-              alt={card.card.name}
-              width={100}
-              height={139}
-            />
+            >
+              <Image
+                src={
+                  card.card.imageUrl
+                    ? card.card.imageUrl
+                    : "https://placehold.co/100x139/png"
+                }
+                layout="fill"
+                objectFit="contain"
+                alt={card.card.name}
+              />
+            </span>
           ))}
-        </span>
+        </div>
       </div>
 
       <span className="flex justify-center gap-2">
