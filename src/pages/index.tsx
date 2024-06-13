@@ -36,7 +36,7 @@ export default function Home() {
         </p>
 
         <Drawer>
-          <DrawerTrigger className="btn-secondary mt-2">
+          <DrawerTrigger className="btn-secondary mt-2 max-w-[400px]">
             Saiba mais
           </DrawerTrigger>
           <DrawerContent>
