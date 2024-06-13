@@ -16,14 +16,16 @@ export const TradeList = () => {
     <div className="flex w-full flex-col gap-5">
       <h3>Mercado ({tradeLength})</h3>
 
-      <div className="flex w-full flex-col gap-5">
-        <h5>Suas Trocas</h5>
-        {myTrades && myTrades.length > 0 ? (
-          myTrades.map(trade => <TradeCard key={trade.id} item={trade} />)
-        ) : (
-          <span>Você não tem trocas</span>
-        )}
-      </div>
+      {user && (
+        <div className="flex w-full flex-col gap-5">
+          <h5>Suas Trocas</h5>
+          {myTrades && myTrades.length > 0 ? (
+            myTrades.map(trade => <TradeCard key={trade.id} item={trade} />)
+          ) : (
+            <span>Você não tem trocas</span>
+          )}
+        </div>
+      )}
 
       <div className="flex w-full flex-col gap-5">
         <h5>Todas Trocas</h5>
