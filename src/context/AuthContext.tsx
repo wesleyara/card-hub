@@ -1,7 +1,16 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useQuery } from "@tanstack/react-query";
+import { useToast } from "~/components/ui/use-toast";
 import { api, endpoints, QueryKeyGetter } from "~/lib";
 import { IUser, LoginResponse, RegisterResponse } from "~/types";
-import { createContext, ReactNode, useEffect, useState } from "react";
+import {
+  createContext,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import { getStorage, removeStorage, setStorage } from "utils-react";
 
 type AuthContextType = {
@@ -9,6 +18,7 @@ type AuthContextType = {
     name: string,
     email: string,
     password: string,
+    setActiveTab: Dispatch<SetStateAction<string>>,
   ) => Promise<void>;
   handleLogin: (email: string, password: string) => Promise<void>;
   handleAddCards: (cardIds: string[]) => Promise<void>;
@@ -28,12 +38,14 @@ export const AuthContext = createContext<AuthContextType>(
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const queryKeyGetter = new QueryKeyGetter();
+  const { toast } = useToast();
   const [token, setToken] = useState<string>("");
 
   const handleRegister = async (
     name: string,
     email: string,
     password: string,
+    setActiveTab: Dispatch<SetStateAction<string>>,
   ) => {
     try {
       await api.post<RegisterResponse>(endpoints.register, {
@@ -41,8 +53,21 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         email,
         password,
       });
-    } catch (error) {
-      console.error(error);
+
+      toast({
+        title: "Conta criada com sucesso",
+        description:
+          "Sua conta foi criada com sucesso! Faça login para acessar.",
+      });
+
+      setActiveTab("login");
+    } catch (error: any) {
+      console.log(error.response.data.message);
+
+      toast({
+        title: "Erro ao fazer o registro",
+        description: error.response.data.message,
+      });
     }
   };
 
@@ -54,8 +79,18 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       });
       setToken(response.data.token);
       setStorage("token", response.data.token);
-    } catch (error) {
-      console.error(error);
+
+      toast({
+        title: "Login efetuado com sucesso",
+        description: "Você foi autenticado com sucesso!",
+      });
+    } catch (error: any) {
+      console.log(error.response.data.message);
+
+      toast({
+        title: "Erro ao fazer o login",
+        description: error.response.data.message,
+      });
     }
   };
 

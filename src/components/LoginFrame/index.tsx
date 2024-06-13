@@ -57,18 +57,8 @@ export const LoginFrame = () => {
 
     if (type === "login") {
       handleLogin(states.email, states.password);
-      toast({
-        title: "Login efetuado com sucesso",
-        description: "Você foi autenticado com sucesso!",
-      });
     } else {
-      handleRegister(states.name, states.email, states.password);
-      toast({
-        title: "Conta criada com sucesso",
-        description:
-          "Sua conta foi criada com sucesso! Faça login para acessar.",
-      });
-      setActiveTab("login");
+      handleRegister(states.name, states.email, states.password, setActiveTab);
     }
   };
 
@@ -157,7 +147,7 @@ export const LoginFrame = () => {
                   </label>
                   <input
                     type="text"
-                    name="password"
+                    name="email"
                     value={states.email}
                     onChange={handleStateChange}
                   />
