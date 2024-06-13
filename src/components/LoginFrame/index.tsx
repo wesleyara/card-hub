@@ -22,12 +22,14 @@ export const LoginFrame = () => {
   const { toast } = useToast();
   const { handleRegister, handleLogin } = useAuth();
   const [states, setStates] = useState(initialState);
+  const [activeTab, setActiveTab] = useState("login");
 
   const handleStateChange = (e: ChangeEvent<HTMLInputElement>) => {
     setStates(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleTabChange = () => {
+  const handleTabChange = (value: string) => {
+    setActiveTab(value);
     setStates(initialState);
   };
 
@@ -55,110 +57,136 @@ export const LoginFrame = () => {
 
     if (type === "login") {
       handleLogin(states.email, states.password);
+      toast({
+        title: "Login efetuado com sucesso",
+        description: "Você foi autenticado com sucesso!",
+      });
     } else {
       handleRegister(states.name, states.email, states.password);
+      toast({
+        title: "Conta criada com sucesso",
+        description:
+          "Sua conta foi criada com sucesso! Faça login para acessar.",
+      });
+      setActiveTab("login");
     }
   };
 
   return (
     <main className="window-width h-screen-without-header mx-auto flex items-center justify-center">
-      <Tabs defaultValue="login" className="w-[400px]">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger onClick={handleTabChange} value="login">
-            Login
-          </TabsTrigger>
-          <TabsTrigger onClick={handleTabChange} value="registro">
-            Registro
-          </TabsTrigger>
-        </TabsList>
+      <section className="h-[500px]">
+        <Tabs
+          onValueChange={value => handleTabChange(value)}
+          defaultValue={activeTab}
+          value={activeTab}
+          className="w-[400px]"
+        >
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="login">Login</TabsTrigger>
+            <TabsTrigger value="registro">Registro</TabsTrigger>
+          </TabsList>
 
-        <TabsContent value="login">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-black">Login</CardTitle>
-              <CardDescription>
-                Digite seu email e senha para acessar sua conta.
-              </CardDescription>
-            </CardHeader>
+          <TabsContent value="login">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-black">Login</CardTitle>
+                <CardDescription>
+                  Digite seu email e senha para acessar sua conta.
+                </CardDescription>
+              </CardHeader>
 
-            <CardContent className="space-y-2">
-              <div className="flex flex-col gap-2 space-y-1">
-                <label htmlFor="email" className="text-black">
-                  Email
-                </label>
-                <input type="text" name="email" onChange={handleStateChange} />
-              </div>
-              <div className="flex flex-col gap-2 space-y-1">
-                <label htmlFor="password" className="text-black">
-                  Senha
-                </label>
-                <input
-                  type="password"
-                  name="password"
-                  onChange={handleStateChange}
-                />
-              </div>
-            </CardContent>
+              <CardContent className="space-y-2">
+                <div className="flex flex-col gap-2 space-y-1">
+                  <label htmlFor="email" className="text-black">
+                    Email
+                  </label>
+                  <input
+                    type="text"
+                    name="email"
+                    value={states.email}
+                    onChange={handleStateChange}
+                  />
+                </div>
+                <div className="flex flex-col gap-2 space-y-1">
+                  <label htmlFor="password" className="text-black">
+                    Senha
+                  </label>
+                  <input
+                    type="password"
+                    name="password"
+                    value={states.password}
+                    onChange={handleStateChange}
+                  />
+                </div>
+              </CardContent>
 
-            <CardFooter>
-              <button
-                className="btn"
-                onClick={() => handleButtonAction("login")}
-              >
-                Login
-              </button>
-            </CardFooter>
-          </Card>
-        </TabsContent>
+              <CardFooter>
+                <button
+                  className="btn"
+                  onClick={() => handleButtonAction("login")}
+                >
+                  Login
+                </button>
+              </CardFooter>
+            </Card>
+          </TabsContent>
 
-        <TabsContent value="registro">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-black">Registro</CardTitle>
-              <CardDescription>
-                Digite seu nome, email e senha para criar uma conta.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              <div className="flex flex-col gap-2 space-y-1">
-                <label htmlFor="name" className="text-black">
-                  Nome
-                </label>
-                <input type="text" name="name" onChange={handleStateChange} />
-              </div>
-              <div className="flex flex-col gap-2 space-y-1">
-                <label htmlFor="email" className="text-black">
-                  Email
-                </label>
-                <input
-                  type="text"
-                  name="password"
-                  onChange={handleStateChange}
-                />
-              </div>
-              <div className="flex flex-col gap-2 space-y-1">
-                <label htmlFor="password" className="text-black">
-                  Senha
-                </label>
-                <input
-                  type="password"
-                  name="password"
-                  onChange={handleStateChange}
-                />
-              </div>
-            </CardContent>
+          <TabsContent value="registro">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-black">Registro</CardTitle>
+                <CardDescription>
+                  Digite seu nome, email e senha para criar uma conta.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <div className="flex flex-col gap-2 space-y-1">
+                  <label htmlFor="name" className="text-black">
+                    Nome
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={states.name}
+                    onChange={handleStateChange}
+                  />
+                </div>
+                <div className="flex flex-col gap-2 space-y-1">
+                  <label htmlFor="email" className="text-black">
+                    Email
+                  </label>
+                  <input
+                    type="text"
+                    name="password"
+                    value={states.email}
+                    onChange={handleStateChange}
+                  />
+                </div>
+                <div className="flex flex-col gap-2 space-y-1">
+                  <label htmlFor="password" className="text-black">
+                    Senha
+                  </label>
+                  <input
+                    type="password"
+                    name="password"
+                    value={states.password}
+                    onChange={handleStateChange}
+                  />
+                </div>
+              </CardContent>
 
-            <CardFooter>
-              <button
-                className="btn"
-                onClick={() => handleButtonAction("register")}
-              >
-                Registrar
-              </button>
-            </CardFooter>
-          </Card>
-        </TabsContent>
-      </Tabs>
+              <CardFooter>
+                <button
+                  className="btn"
+                  onClick={() => handleButtonAction("register")}
+                >
+                  Registrar
+                </button>
+              </CardFooter>
+            </Card>
+          </TabsContent>
+        </Tabs>
+      </section>
     </main>
   );
 };

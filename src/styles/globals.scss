@@ -97,5 +97,5 @@ input {
 }
 
 .card {
-  @apply flex flex-col items-center gap-2 rounded-md bg-card p-1 pb-2 text-card-foreground w-[225px];
+  @apply relative flex w-[225px] flex-col items-center gap-2 rounded-md bg-card p-1 pb-2 text-card-foreground;
 }

@@ -5,10 +5,9 @@ import {
   DialogTitle,
 } from "@headlessui/react";
 import { useAuth } from "~/hooks";
-import { api } from "~/lib";
-import { CardsResponse } from "~/types";
+import { useMarket } from "~/hooks/useMarket";
 import Image from "next/image";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 
 import { useToast } from "../ui/use-toast";
 
@@ -20,25 +19,11 @@ interface AddCardsModalProps {
 export const AddCardsModal = ({ isOpen, setIsOpen }: AddCardsModalProps) => {
   const { toast } = useToast();
   const { user, handleAddCards } = useAuth();
-  const [cards, setCards] = useState<CardsResponse>();
+  const { cards, isLoadingCards } = useMarket();
   const [selectedCards, setSelectedCards] = useState<string[]>([]);
 
   const userCardIds = user?.cards.map(card => card.id) || [];
-
-  const requestCards = async () => {
-    try {
-      const response = await api.get<CardsResponse>("/cards?rpp=100&page=1");
-      setCards(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    if (isOpen) {
-      requestCards();
-    }
-  }, [isOpen]);
+  const buttonEnabled = selectedCards.length > 0;
 
   const handleSelectCard = (cardId: string) => {
     if (selectedCards.includes(cardId)) {
@@ -54,7 +39,7 @@ export const AddCardsModal = ({ isOpen, setIsOpen }: AddCardsModalProps) => {
   };
 
   const handleAction = async () => {
-    if (selectedCards.length === 0) {
+    if (!buttonEnabled) {
       return toast({
         title: "Erro",
         description: "Selecione ao menos um card para adicionar.",
@@ -62,6 +47,46 @@ export const AddCardsModal = ({ isOpen, setIsOpen }: AddCardsModalProps) => {
     }
     await handleAddCards(selectedCards);
     handleClose();
+  };
+
+  const renderCards = () => {
+    if (isLoadingCards) {
+      return <span className="text-black">Carregando...</span>;
+    }
+
+    const filteredCards = cards?.list?.filter(
+      card => !userCardIds.includes(card.id),
+    );
+
+    if (filteredCards?.length === 0) {
+      return <p>Nenhum card disponível para adicionar.</p>;
+    }
+
+    return filteredCards?.map(card => (
+      <span
+        key={card.id}
+        className={`card ${
+          !selectedCards.includes(card.id) &&
+          selectedCards.length > 0 &&
+          "opacity-50"
+        }`}
+      >
+        <Image
+          src={
+            card.imageUrl ? card.imageUrl : "https://placehold.co/150x209/png"
+          }
+          alt={card.name || "Placeholder card"}
+          width={150}
+          height={209}
+          className="cursor-pointer"
+          onClick={() => handleSelectCard(card.id)}
+        />
+        <b className="text-black">{card.name || "Card sem nome"}</b>
+        <span className="h-16 !overflow-auto px-2 text-center text-[14px] text-black">
+          {card.description || "Card sem descrição"}
+        </span>
+      </span>
+    ));
   };
 
   return (
@@ -79,42 +104,13 @@ export const AddCardsModal = ({ isOpen, setIsOpen }: AddCardsModalProps) => {
           </Description>
 
           <div className="flex h-[400px] flex-wrap items-center justify-center gap-2 overflow-auto">
-            {cards && cards?.list && cards.list.length > 0 ? (
-              cards.list
-                .filter(card => !userCardIds.includes(card.id))
-                .map(card => (
-                  <span
-                    key={card.id}
-                    className={`card ${
-                      !selectedCards.includes(card.id) &&
-                      selectedCards.length > 0 &&
-                      "opacity-50"
-                    }`}
-                  >
-                    <Image
-                      src={
-                        card.imageUrl
-                          ? card.imageUrl
-                          : "https://placehold.co/150x209/png"
-                      }
-                      alt={card.name || "Placeholder card"}
-                      width={150}
-                      height={209}
-                      className="cursor-pointer"
-                      onClick={() => handleSelectCard(card.id)}
-                    />
-                    <b className="text-black">{card.name || "Card sem nome"}</b>
-                    <span className="h-16 !overflow-auto px-2 text-center text-[14px] text-black">
-                      {card.description || "Card sem descrição"}
-                    </span>
-                  </span>
-                ))
-            ) : (
-              <p className="text-black">Carregando...</p>
-            )}
+            {renderCards()}
           </div>
 
-          <button className="btn" onClick={handleAction}>
+          <button
+            className={`btn ${!buttonEnabled && "grayscale"}`}
+            onClick={handleAction}
+          >
             Adicionar
           </button>
         </DialogPanel>

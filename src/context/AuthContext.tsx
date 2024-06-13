@@ -1,7 +1,8 @@
+import { useQuery } from "@tanstack/react-query";
 import { api, endpoints } from "~/lib";
 import { IUser, LoginResponse, RegisterResponse } from "~/types";
 import { createContext, ReactNode, useEffect, useState } from "react";
-import { getStorage, setStorage } from "utils-react";
+import { getStorage, removeStorage, setStorage } from "utils-react";
 
 type AuthContextType = {
   handleRegister: (
@@ -13,7 +14,8 @@ type AuthContextType = {
   handleAddCards: (cardIds: string[]) => Promise<void>;
   handleLogout: () => void;
   requestMe: (token: string) => void;
-  user: IUser | null;
+  user: IUser | undefined;
+  isLoadingUser: boolean;
   token: string;
 };
 
@@ -26,7 +28,6 @@ export const AuthContext = createContext<AuthContextType>(
 );
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [user, setUser] = useState<IUser | null>(null);
   const [token, setToken] = useState<string>("");
 
   const handleRegister = async (
@@ -71,15 +72,17 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           },
         },
       );
-      requestMe(token);
+
+      refetch();
     } catch (error) {
       console.error(error);
     }
   };
 
   const handleLogout = () => {
-    setUser(null);
     setToken("");
+    removeStorage("token");
+    location.reload();
   };
 
   const requestMe = async (token: string) => {
@@ -90,11 +93,21 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         },
       });
 
-      setUser(response.data);
+      return response.data;
     } catch (error) {
       console.error(error);
     }
   };
+
+  const {
+    data: user,
+    isLoading: isLoadingUser,
+    refetch,
+  } = useQuery({
+    enabled: !!token,
+    queryKey: ["user"],
+    queryFn: () => requestMe(token),
+  });
 
   useEffect(() => {
     const localToken = getStorage("token");
@@ -103,16 +116,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setToken(localToken);
     }
   }, []);
-
-  useEffect(() => {
-    if (token) {
-      requestMe(token);
-    }
-  }, [token]);
-
-  useEffect(() => {
-    console.log({ user });
-  }, [user]);
 
   return (
     <AuthContext.Provider
@@ -123,6 +126,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         handleLogout,
         requestMe,
         user,
+        isLoadingUser,
         token,
       }}
     >
