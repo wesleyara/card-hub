@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { api, endpoints } from "~/lib";
+import { api, endpoints, QueryKeyGetter } from "~/lib";
 import { IUser, LoginResponse, RegisterResponse } from "~/types";
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { getStorage, removeStorage, setStorage } from "utils-react";
@@ -13,7 +13,6 @@ type AuthContextType = {
   handleLogin: (email: string, password: string) => Promise<void>;
   handleAddCards: (cardIds: string[]) => Promise<void>;
   handleLogout: () => void;
-  requestMe: (token: string) => void;
   user: IUser | undefined;
   isLoadingUser: boolean;
   token: string;
@@ -28,6 +27,7 @@ export const AuthContext = createContext<AuthContextType>(
 );
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
+  const queryKeyGetter = new QueryKeyGetter();
   const [token, setToken] = useState<string>("");
 
   const handleRegister = async (
@@ -85,20 +85,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     location.reload();
   };
 
-  const requestMe = async (token: string) => {
-    try {
-      const response = await api.get<IUser>(endpoints.me, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      return response.data;
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   const {
     data: user,
     isLoading: isLoadingUser,
@@ -106,7 +92,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   } = useQuery({
     enabled: !!token,
     queryKey: ["user"],
-    queryFn: () => requestMe(token),
+    queryFn: () => queryKeyGetter.requestMe(token),
   });
 
   useEffect(() => {
@@ -124,7 +110,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         handleAddCards,
         handleLogin,
         handleLogout,
-        requestMe,
         user,
         isLoadingUser,
         token,

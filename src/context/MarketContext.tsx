@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { api } from "~/lib";
+import { QueryKeyGetter } from "~/lib";
 import { CardsResponse } from "~/types";
 import { createContext, ReactNode } from "react";
 
@@ -17,18 +17,11 @@ export const MarketContext = createContext<MarketContextType>(
 );
 
 export const MarketProvider = ({ children }: MarketProviderProps) => {
-  const requestCards = async () => {
-    try {
-      const response = await api.get<CardsResponse>("/cards?rpp=100&page=1");
-      return response.data;
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const queryKeyGetter = new QueryKeyGetter();
 
   const { data: cards, isLoading: isLoadingCards } = useQuery({
     queryKey: ["cards"],
-    queryFn: requestCards,
+    queryFn: queryKeyGetter.requestCards,
   });
 
   return (
