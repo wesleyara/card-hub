@@ -22,7 +22,7 @@ export const Profile = () => {
           >
             Adicionar cartas
           </button>
-          <button className="btn-secondary md:w-[300px]">Trocar cards</button>
+          <button className="btn-secondary md:w-[300px]">Trocar cartas</button>
           <button className="btn-secondary md:w-[300px]" onClick={handleLogout}>
             Sair
           </button>

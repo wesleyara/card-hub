@@ -25,8 +25,11 @@ export default function Home() {
         description="Bem-vindo ao Card Hub, o ponto de encontro para todos os entusiastas de cartas colecionáveis! "
       />
       <section className="h-screen-without-header window-width mx-auto flex flex-col items-center justify-center gap-2">
-        <h1 className="mt-8 flex gap-2 text-center font-bold">
-          Bem-vindo ao Card Hub <Icon />
+        <h1 className="flex flex-wrap justify-center gap-2 text-center font-bold">
+          Bem-vindo ao
+          <span className="flex gap-2">
+            Card Hub <Icon />
+          </span>
         </h1>
         <p className="mt-4 text-center">
           O ponto de encontro para todos os entusiastas de cartas colecionáveis!

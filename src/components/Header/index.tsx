@@ -1,6 +1,15 @@
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "~/components/ui/dropdown-menu";
 import { useAuth } from "~/hooks";
 import { routes } from "~/lib";
 import { useRouter } from "next/router";
+import { IoMenu } from "react-icons/io5";
 
 import { Icon } from "../Icon";
 
@@ -37,6 +46,31 @@ export const Header = () => {
             {user ? "Perfil" : "Login"}
           </li>
         </ul>
+
+        <span className="block md:hidden">
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <IoMenu size={35} />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-[100vw]">
+              <DropdownMenuLabel>Card Hub Menu</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              {routes.map(route => (
+                <DropdownMenuItem
+                  key={route.path}
+                  onClick={() => handleNavigate(route.path)}
+                >
+                  {route.label}
+                </DropdownMenuItem>
+              ))}
+              <DropdownMenuItem
+                onClick={() => handleNavigate(user ? "/perfil" : "/login")}
+              >
+                {user ? "Perfil" : "Login"}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </span>
       </nav>
     </header>
   );
