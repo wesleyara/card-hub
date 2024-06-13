@@ -1,22 +1,14 @@
-import { LoginRequest, MarketFrame, Meta } from "~/components";
+import { MarketFrame, Meta } from "~/components";
 import { useAuth } from "~/hooks";
 
 export default function Mercado() {
-  const { user, isLoadingUser } = useAuth();
+  const { isLoadingUser } = useAuth();
 
   const renderProfile = () => {
     if (isLoadingUser) {
       return (
         <section className="window-width h-screen-without-header mx-auto flex items-center justify-center">
           <h3>Carregando...</h3>
-        </section>
-      );
-    }
-
-    if (!user) {
-      return (
-        <section className="window-width h-screen-without-header mx-auto flex items-center justify-center">
-          <LoginRequest />
         </section>
       );
     }

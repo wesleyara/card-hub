@@ -1,6 +1,8 @@
 import { useAuth } from "~/hooks";
+import { useMarket } from "~/hooks/useMarket";
 import { TradesResponse } from "~/types";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { FaArrowRightArrowLeft } from "react-icons/fa6";
 import { useWidth } from "utils-react";
 
@@ -11,8 +13,11 @@ interface TradeCardProps {
 }
 
 export const TradeCard = ({ item }: TradeCardProps) => {
+  const router = useRouter();
   const { toast } = useToast();
   const { user } = useAuth();
+  const { handleCancelTrade } = useMarket();
+
   const myCards = item.tradeCards.filter(card => card.type === "OFFERING");
   const theirCards = item.tradeCards.filter(card => card.type === "RECEIVING");
 
@@ -21,7 +26,7 @@ export const TradeCard = ({ item }: TradeCardProps) => {
   const userCardsIds = user?.cards.map(card => card.id) || [];
 
   const calculateLeft = (arrayLength: number, index: number) => {
-    const reference = width > 500 ? 8 : 15 + arrayLength;
+    const reference = width > 500 ? 8 : 12 + arrayLength;
 
     const value = index * (width / reference / arrayLength);
 
@@ -37,10 +42,15 @@ export const TradeCard = ({ item }: TradeCardProps) => {
     userCardsIds.includes(card.card.id),
   );
 
-  const handleAction = () => {
-    if (isTradeOwn) {
-      // Cancel trade
+  const handleAction = async () => {
+    if (!user) {
+      return router.push("/login");
     }
+
+    if (isTradeOwn) {
+      return await handleCancelTrade(item.id);
+    }
+
     if (!isEnableToTrade) {
       return toast({
         title: "Erro",
@@ -48,7 +58,10 @@ export const TradeCard = ({ item }: TradeCardProps) => {
       });
     }
 
-    // Trade logic
+    return toast({
+      title: "Atenção",
+      description: "Entre em contato com o usuário para realizar a troca.",
+    });
   };
 
   return (
@@ -104,7 +117,7 @@ export const TradeCard = ({ item }: TradeCardProps) => {
               className={`${
                 index !== 0 && "absolute top-0"
               }  block h-[139px] w-[100px] ${
-                !userCardsIds.includes(card.cardId) && "grayscale"
+                user && !userCardsIds.includes(card.cardId) && "grayscale"
               }`}
               key={card.cardId}
               src={
@@ -123,11 +136,15 @@ export const TradeCard = ({ item }: TradeCardProps) => {
       <span className="flex justify-center gap-2">
         <button
           className={`btn-secondary max-w-[300px] ${
-            !isTradeOwn && !isEnableToTrade && "!bg-opacity-50"
+            user && !isTradeOwn && !isEnableToTrade && "!bg-opacity-50"
           }`}
           onClick={handleAction}
         >
-          {isTradeOwn ? "Cancelar troca" : "Realizar troca"}
+          {!user
+            ? "Faça o login"
+            : isTradeOwn
+            ? "Cancelar troca"
+            : "Realizar troca"}
         </button>
         <button className={`btn-secondary max-w-[300px]`}>
           Veja as cartas
