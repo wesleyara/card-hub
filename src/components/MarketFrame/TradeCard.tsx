@@ -72,7 +72,7 @@ export const TradeCard = ({ item }: TradeCardProps) => {
             {myCards.map(card => (
               <span
                 key={card.cardId}
-                className={`relative flex h-[139px] w-[100px] min-w-[100px] border border-black`}
+                className={`relative flex h-[139px] w-[100px] min-w-[100px]`}
               >
                 <Image
                   src={
@@ -94,7 +94,7 @@ export const TradeCard = ({ item }: TradeCardProps) => {
             {theirCards.map(card => (
               <span
                 key={card.cardId}
-                className={`relative flex h-[139px] w-[100px] min-w-[100px] border border-black ${
+                className={`relative flex h-[139px] w-[100px] min-w-[100px] ${
                   user && !userCardsIds.includes(card.cardId) && "grayscale"
                 }`}
               >

@@ -9,8 +9,10 @@ import { useMarket } from "~/hooks/useMarket";
 import { idsInTrade } from "~/lib";
 import { Card } from "~/types";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { Dispatch, SetStateAction, useState } from "react";
 
+import { ToastAction } from "../ui/toast";
 import { useToast } from "../ui/use-toast";
 
 interface TradeCardsModalProps {
@@ -22,6 +24,7 @@ export const TradeCardsModal = ({
   isOpen,
   setIsOpen,
 }: TradeCardsModalProps) => {
+  const router = useRouter();
   const { toast } = useToast();
   const { user } = useAuth();
   const { cards, trades, handleTradeCards } = useMarket();
@@ -104,6 +107,14 @@ export const TradeCardsModal = ({
     toast({
       title: "Sucesso",
       description: "Cartas adicionadas para troca realizada com sucesso!",
+      action: (
+        <ToastAction
+          onClick={() => router.push("/mercado")}
+          altText="Goto schedule to undo"
+        >
+          Ver
+        </ToastAction>
+      ),
     });
   };
 

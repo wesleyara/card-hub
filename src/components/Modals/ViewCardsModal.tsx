@@ -29,7 +29,7 @@ export const ViewCardsModal = ({
   return (
     <Dialog open={isOpen} onClose={handleClose} className="relative z-50">
       <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
-        <DialogPanel className="relative max-w-[768px] space-y-4 rounded-md border-2 border-black bg-white p-6">
+        <DialogPanel className="relative max-w-[300px] space-y-4 rounded-md border-2 border-black bg-white p-6 md:max-w-[768px]">
           <button className="absolute right-4 top-4" onClick={handleClose}>
             X
           </button>
@@ -43,7 +43,7 @@ export const ViewCardsModal = ({
                 {myCards.map(card => (
                   <span
                     key={card.cardId}
-                    className={`relative flex h-[139px] w-[100px] min-w-[100px] border border-black`}
+                    className={`relative flex h-[139px] w-[100px] min-w-[100px]`}
                   >
                     <Image
                       src={
@@ -65,7 +65,7 @@ export const ViewCardsModal = ({
                 {theirCards.map(card => (
                   <span
                     key={card.cardId}
-                    className={`relative flex h-[139px] w-[100px] min-w-[100px] border border-black ${
+                    className={`relative flex h-[139px] w-[100px] min-w-[100px] ${
                       user && !userCardsIds.includes(card.cardId) && "grayscale"
                     }`}
                   >
