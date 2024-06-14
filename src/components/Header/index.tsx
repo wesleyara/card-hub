@@ -25,7 +25,7 @@ export const Header = () => {
     <header className="window-width mx-auto flex items-center justify-between py-4">
       <span className="flex items-center justify-center gap-3">
         <h2>Card Hub</h2>
-        <Icon className="h-10 w-10" />
+        <Icon className="h-8 w-8 md:h-10 md:w-10" />
       </span>
 
       <nav>
@@ -49,7 +49,7 @@ export const Header = () => {
 
         <span className="block md:hidden">
           <DropdownMenu>
-            <DropdownMenuTrigger>
+            <DropdownMenuTrigger role="button" aria-label="menu">
               <IoMenu size={35} />
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-[100vw]">
