@@ -59,8 +59,8 @@ export const TradeCard = ({ item }: TradeCardProps) => {
 
   return (
     <>
-      <section className="flex w-full flex-col gap-3 rounded-md border p-3">
-        <h5>
+      <section className="flex w-full flex-col gap-3 rounded-md bg-plantation-200 p-3">
+        <h5 className="text-black">
           {item.user.name} {isTradeOwn && `(Você)`}
         </h5>
 
@@ -85,7 +85,7 @@ export const TradeCard = ({ item }: TradeCardProps) => {
             ))}
           </div>
 
-          <FaArrowRightArrowLeft size={30} />
+          <FaArrowRightArrowLeft size={30} color="#000000" />
 
           <div className="flex w-full justify-start gap-2 overflow-x-auto">
             {theirCards.map(card => (
@@ -112,7 +112,7 @@ export const TradeCard = ({ item }: TradeCardProps) => {
 
         <span className="flex justify-center gap-2">
           <button
-            className={`btn-secondary max-w-[300px] ${
+            className={`btn max-w-[300px] ${
               user && !isTradeOwn && !isEnableToTrade && "!bg-opacity-50"
             }`}
             onClick={handleAction}
@@ -123,10 +123,7 @@ export const TradeCard = ({ item }: TradeCardProps) => {
               ? "Cancelar troca"
               : "Realizar troca"}
           </button>
-          <button
-            className={`btn-secondary max-w-[300px]`}
-            onClick={handleOpenView}
-          >
+          <button className={`btn max-w-[300px]`} onClick={handleOpenView}>
             Veja as cartas
           </button>
         </span>

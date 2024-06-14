@@ -6,7 +6,7 @@ import {
   QueryClientProvider,
 } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { Header } from "~/components";
+import { Footer, Header } from "~/components";
 import { Toaster } from "~/components/ui/toaster";
 import { MarketProvider } from "~/context";
 import { AuthProvider } from "~/context/AuthContext";
@@ -22,6 +22,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <MarketProvider>
             <Header />
             <Component {...pageProps} />
+            <Footer />
             <Toaster />
           </MarketProvider>
         </AuthProvider>

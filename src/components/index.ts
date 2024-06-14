@@ -6,3 +6,4 @@ export * from "./ProfileFrame";
 export * from "./LoginRequest";
 export * from "./Modals";
 export * from "./MarketFrame";
+export * from "./Footer";
