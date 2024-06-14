@@ -33,14 +33,14 @@ export const Header = () => {
           {routes.map(route => (
             <li
               key={route.path}
-              className="cursor-pointer px-4 py-2"
+              className="cursor-pointer px-4 py-2 font-bold"
               onClick={() => handleNavigate(route.path)}
             >
               {route.label}
             </li>
           ))}
           <li
-            className="cursor-pointer px-4 py-2"
+            className="cursor-pointer px-4 py-2 font-bold"
             onClick={() => handleNavigate(user ? "/perfil" : "/login")}
           >
             {user ? "Perfil" : "Login"}
