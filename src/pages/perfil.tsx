@@ -4,6 +4,7 @@ import { useAuth } from "~/hooks";
 export default function Perfil() {
   const { user, isLoadingUser } = useAuth();
 
+  // renderiza o componente de acordo com o estado de carregamento do usuário
   const renderProfile = () => {
     if (isLoadingUser) {
       return (

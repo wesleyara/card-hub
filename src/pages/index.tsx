@@ -18,6 +18,7 @@ export default function Home() {
   const handleNavigate = (path: string) => {
     router.push(path);
   };
+
   return (
     <>
       <Meta

@@ -6,6 +6,7 @@ export const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(inputs));
 };
 
+// função responsável por retornar os ids das cartas em trade
 export const idsInTrade = (
   trades: TradesResponse[] | undefined,
   user: IUser | undefined,

@@ -7,6 +7,7 @@ export default function Login() {
   const router = useRouter();
   const { user } = useAuth();
 
+  // redireciona o usuário para a página inicial caso ele esteja logado
   useEffect(() => {
     if (user) {
       router.push("/");

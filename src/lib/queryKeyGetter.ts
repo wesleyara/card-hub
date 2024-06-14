@@ -3,6 +3,7 @@ import { CardsResponse, IUser, TradesResponse } from "~/types";
 import { api } from "./axios";
 import { endpoints } from "./constants";
 
+// classe responsável por realizar as requisições de dados
 export class QueryKeyGetter {
   async requestCards() {
     try {

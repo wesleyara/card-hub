@@ -27,10 +27,13 @@ export const TradeCard = ({ item }: TradeCardProps) => {
   const userCardsIds = user?.cards.map(card => card.id) || [];
 
   const isTradeOwn = item.user.name === user?.name;
+
+  // verifica se o usuário possui todos os cards para realizar a troca
   const isEnableToTrade = theirCards.every(card =>
     userCardsIds.includes(card.card.id),
   );
 
+  // função responsável por realizar a ação de troca
   const handleAction = async () => {
     if (!user) {
       return router.push("/login");

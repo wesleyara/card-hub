@@ -9,11 +9,13 @@ export const Profile = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [cta, setCta] = useState<"addCards" | "tradeCards" | null>(null);
 
+  // opções de ação para o usuário
   const ctaOptions = {
     addCards: <AddCardsModal isOpen={isOpen} setIsOpen={setIsOpen} />,
     tradeCards: <TradeCardsModal isOpen={isOpen} setIsOpen={setIsOpen} />,
   };
 
+  // função responsável por lidar com a ação de adicionar ou trocar cartas
   const handleAction = async (action: "addCards" | "tradeCards") => {
     setCta(action);
     await delay(200);

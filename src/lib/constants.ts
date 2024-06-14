@@ -1,3 +1,4 @@
+// Definindo as rotas da API
 export const endpoints = {
   register: "/register", // POST { "name": "Example", "email": "example@test.com", "password": "123456" }
   login: "/login", // POST { "email": "example@test.com", "password": "123456" }
@@ -10,6 +11,7 @@ export const endpoints = {
   deleteTrade: "/trades", // DELETE /:id
 };
 
+// Definindo as rotas da aplicação
 export const routes = [
   {
     label: "Home",

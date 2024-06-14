@@ -24,15 +24,18 @@ export const LoginFrame = () => {
   const [states, setStates] = useState(initialState);
   const [activeTab, setActiveTab] = useState("login");
 
+  // função responsável por atualizar o estado dos inputs
   const handleStateChange = (e: ChangeEvent<HTMLInputElement>) => {
     setStates(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  // função responsável por atualizar a aba ativa
   const handleTabChange = (value: string) => {
     setActiveTab(value);
     setStates(initialState);
   };
 
+  // função responsável por realizar a ação de login ou registro
   const handleButtonAction = (type: "login" | "register") => {
     if (type === "register" && states.name.trim() === "") {
       return toast({

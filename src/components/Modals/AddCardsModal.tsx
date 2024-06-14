@@ -23,8 +23,10 @@ export const AddCardsModal = ({ isOpen, setIsOpen }: AddCardsModalProps) => {
   const [selectedCards, setSelectedCards] = useState<string[]>([]);
 
   const userCardIds = user?.cards.map(card => card.id) || [];
+  // verifica se o botão de adicionar deve está habilitado
   const buttonEnabled = selectedCards.length > 0;
 
+  // função responsável por selecionar ou deselecionar um card
   const handleSelectCard = (cardId: string) => {
     if (selectedCards.includes(cardId)) {
       setSelectedCards(selectedCards.filter(id => id !== cardId));
@@ -38,6 +40,7 @@ export const AddCardsModal = ({ isOpen, setIsOpen }: AddCardsModalProps) => {
     setSelectedCards([]);
   };
 
+  // função responsável por adicionar as cartas selecionadas ao inventário do usuário
   const handleAction = async () => {
     if (!buttonEnabled) {
       return toast({

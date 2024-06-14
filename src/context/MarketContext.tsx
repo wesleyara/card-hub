@@ -45,6 +45,7 @@ export const MarketProvider = ({ children }: MarketProviderProps) => {
     queryFn: queryKeyGetter.requestTrades,
   });
 
+  // função responsável por realizar a troca de cartas
   const handleTradeCards = async (
     cardsToOffer: string[],
     cardsToReceive: string[],
@@ -84,6 +85,7 @@ export const MarketProvider = ({ children }: MarketProviderProps) => {
     }
   };
 
+  // função responsável por cancelar uma troca
   const handleCancelTrade = async (tradeId: string) => {
     try {
       await api.delete(`${endpoints.deleteTrade}/${tradeId}`, {

@@ -41,6 +41,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const { toast } = useToast();
   const [token, setToken] = useState<string>("");
 
+  // função responsável por realizar o registro
   const handleRegister = async (
     name: string,
     email: string,
@@ -71,6 +72,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
+  // função responsável por realizar login
   const handleLogin = async (email: string, password: string) => {
     try {
       const response = await api.post<LoginResponse>(endpoints.login, {
@@ -94,6 +96,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
+  // função responsável por adicionar cartas
   const handleAddCards = async (cardIds: string[]) => {
     try {
       await api.post(
@@ -114,6 +117,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
+  // função responsável por realizar o logout
   const handleLogout = () => {
     setToken("");
     removeStorage("token");
@@ -130,6 +134,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     queryFn: () => queryKeyGetter.requestMe(token),
   });
 
+  // verifica se existe um token no local storage
   useEffect(() => {
     const localToken = getStorage("token");
 

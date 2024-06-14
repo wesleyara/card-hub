@@ -35,6 +35,7 @@ export const TradeCardsModal = ({
     setIsOpen(false);
   };
 
+  // função responsável por selecionar ou deselecionar um card
   const handleSelectCard = (cardId: string) => {
     if (step === "offer") {
       if (cardsToOffer.includes(cardId)) {
@@ -51,6 +52,7 @@ export const TradeCardsModal = ({
     }
   };
 
+  // função responsável por renderizar as cartas
   const renderCards = () => {
     const inTrade = idsInTrade(trades, user);
     const myCardIds = user?.cards.map(card => card.id) || [];
@@ -91,6 +93,7 @@ export const TradeCardsModal = ({
     ));
   };
 
+  // função responsável por realizar a troca de cartas
   const handleAction = async (action: "offer" | "receive") => {
     if (action === "offer") {
       return setStep("receive");
@@ -104,6 +107,7 @@ export const TradeCardsModal = ({
     });
   };
 
+  // habilita o botão de acordo com a etapa e a quantidade de cartas selecionadas
   const enableButton =
     step === "offer" ? cardsToOffer.length > 0 : cardsToReceive.length > 0;
 
